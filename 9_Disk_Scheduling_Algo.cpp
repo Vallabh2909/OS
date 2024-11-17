@@ -89,7 +89,6 @@ int clookDiskScheduling(vector<int>& requests, int head, int diskSize) {
     sort(right.begin(), right.end());
 
     // Move to the right first
-     // Move to the right first
     seekCount += abs(head - right[0]);
     head = right[0];
 
@@ -97,11 +96,19 @@ int clookDiskScheduling(vector<int>& requests, int head, int diskSize) {
     seekCount += right[right.size() - 1] - head;
     head = right[right.size() - 1];
 
-    // Jump to the leftmost request without backtracking
-    seekCount += abs(head - left[0]);  // Jump to the farthest left request
+    // Now jump to the leftmost request without backtracking
+    seekCount += abs(head - left[0]);  // Jump to the leftmost request and serve
+    head = left[0];
+
+    // Optionally, you could continue serving the requests in the left side.
+    // This is assumed based on your use case, otherwise this step could be skipped.
+    if (left.size() > 0) {
+        seekCount += left[left.size() - 1] - head;
+    }
     
     return seekCount;
 }
+
 
 int main() {
     int n, head, diskSize;
